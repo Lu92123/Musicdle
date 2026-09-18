@@ -2,7 +2,7 @@
 setlocal
 chcp 65001 >nul
 cd /d "%~dp0"
-title Musicdle - Heardle & Bandle Local
+title Musicdle - Heardle ^& Bandle Local
 
 rem FFmpeg en PATH (necesario para el modo Bandle)
 set "FFDIR=C:\Users\Lucas\AppData\Local\Microsoft\WinGet\Packages\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\ffmpeg-9.0.1-full_build\bin"
