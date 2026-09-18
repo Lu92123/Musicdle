@@ -40,6 +40,11 @@ audio_cache/             Cache de audio / stems (se crea automáticamente)
 
 ## Instalación
 
+> **Forma rápida (Windows):** doble clic a **`setup.bat`** (o `setup.bat --check` para ver un
+> diagnóstico sin cambiar nada). Crea el entorno virtual, instala PyTorch (con CUDA si detecta
+> una GPU NVIDIA, si no usa CPU), el resto de dependencias y **ffmpeg** vía winget. Después
+> abrí `Iniciar Musicdle.bat` para jugar. Los pasos de abajo son la versión manual.
+
 1. Crear y activar el entorno virtual y abrir una terminal en la carpeta del proyecto:
 
    ```bash
