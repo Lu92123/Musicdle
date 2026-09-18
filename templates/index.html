@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Heardle &amp; Bandle Local</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <main class="container">
+    <header class="site-header">
+      <h1>Heardle <span class="amp">&amp;</span> Bandle Local</h1>
+      <span id="env-info" class="muted"></span>
+    </header>
+
+    <section class="card hidden" id="connect-box">
+      <h2>Conectá tu cuenta de Spotify</h2>
+      <p class="muted">
+        Spotify exige autorización de usuario (OAuth) para leer tu biblioteca y tus playlists.
+        Asegurate de haber registrado <code>http://127.0.0.1:8000/callback</code> como Redirect
+        URI de tu app en el dashboard y pulsá el botón.
+      </p>
+      <a id="btn-connect" class="btn-link" href="/login">Conectar con Spotify</a>
+    </section>
+
+    <section class="card">
+      <h2>1. Elegir canciones</h2>
+      <button id="btn-liked" class="btn-big">Usar mis canciones que me gustan</button>
+      <p class="muted" id="liked-hint">
+        Tu biblioteca de "Me gusta" es la opción por defecto: se carga sola al abrir la página
+        (si ya estás conectado). Si aún no conectaste Spotify, pulsá arriba el botón verde.
+      </p>
+      <div class="row second-row">
+        <input type="text" id="playlist-input"
+               placeholder="O pegá la URL de otra playlist pública de Spotify...">
+        <button id="btn-load">Cargar</button>
+      </div>
+      <p id="playlist-status" class="muted"></p>
+      <p id="load-status" class="muted"></p>
+    </section>
+
+    <section class="card" id="mode-card">
+      <h2>2. Modo de juego</h2>
+      <div class="mode-tabs">
+        <button class="mode-btn active" data-mode="heardle">
+          Heardle <small>(tiempo)</small>
+        </button>
+        <button class="mode-btn" data-mode="bandle">
+          Bandle <small>(instrumentos IA)</small>
+        </button>
+      </div>
+
+      <div id="bandle-options" class="bandle-options hidden">
+        <p class="muted">
+          Separa la canción en batería / bajo / otros / voz con Demucs
+          (<span id="device-label">dispositivo: ...</span>).
+        </p>
+        <label class="radio-row">
+          <input type="radio" name="buffer" value="false" checked>
+          Procesamiento inmediato (solo la canción actual)
+        </label>
+        <label class="radio-row">
+          <input type="radio" name="buffer" value="true">
+          Procesamiento previo (buffer): esta y las 2 siguientes canciones
+        </label>
+      </div>
+
+      <div class="game-header">
+        <button id="btn-new-round" disabled>Nueva Ronda</button>
+      </div>
+      <p id="round-status" class="muted"></p>
+      <p id="buffer-status" class="muted"></p>
+    </section>
+
+    <section class="card" id="hints-card">
+      <div class="hints-head">
+        <h2>Pistas opcionales</h2>
+        <label class="switch">
+          <input type="checkbox" id="toggle-hints" checked>
+          <span class="slider"></span>
+          <span class="switch-txt">Visible</span>
+        </label>
+      </div>
+      <div id="hints" class="hints">
+        <span class="hint-pill" id="hint-year"></span>
+        <span class="hint-pill" id="hint-views"></span>
+      </div>
+      <p class="muted" id="hint-msg"></p>
+    </section>
+
+    <section class="card" id="game-section">
+      <div id="slots" class="slots"></div>
+
+      <div class="player-panel">
+        <div class="player-controls">
+          <button id="btn-mute" class="ctrl-btn" title="Silenciar" aria-label="Silenciar">
+            <svg viewBox="0 0 24 24" id="ic-vol"><path d="M4 9v6h4l5 5V4L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7" class="stroke"/><path d="M19 6a9 9 0 0 1 0 12" class="stroke"/></svg>
+            <svg viewBox="0 0 24 24" id="ic-mute" class="hidden"><path d="M4 9v6h4l5 5V4L8 9H4z"/><path d="M17 9l5 6M22 9l-5 6" class="stroke"/></svg>
+          </button>
+          <button id="btn-play" class="play-cta" title="Reproducir / Pausar" aria-label="Reproducir">
+            <svg viewBox="0 0 24 24" id="ic-play"><path d="M7 4.5v15l13-7.5z"/></svg>
+            <svg viewBox="0 0 24 24" id="ic-pause" class="hidden"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg>
+          </button>
+          <button id="btn-loop" class="ctrl-btn" title="Bucle / Loop" aria-label="Bucle">
+            <svg viewBox="0 0 24 24"><path d="M17 2l4 4-4 4" class="stroke"/><path d="M3 11v-1a4 4 0 0 1 4-4h14" class="stroke"/><path d="M7 22l-4-4 4-4" class="stroke"/><path d="M21 13v1a4 4 0 0 1-4 4H3" class="stroke"/></svg>
+          </button>
+        </div>
+
+        <div class="progress-bar" id="progress-bar">
+          <div id="progress-explored" class="progress-explored"></div>
+          <div id="progress-fill" class="progress-fill"></div>
+          <div id="progress-marks" class="progress-marks"></div>
+        </div>
+        <p id="time-label" class="time-label muted"></p>
+        <p id="attempt-label" class="attempt-label"></p>
+      </div>
+
+      <div class="action-row">
+        <button id="btn-skip" disabled>SALTAR</button>
+        <div class="guess-wrap">
+          <input type="text" id="guess-input" autocomplete="off" disabled
+                 placeholder="Escribí el título de la canción...">
+          <div id="dropdown"></div>
+        </div>
+        <button id="btn-submit" disabled>ADIVINA</button>
+      </div>
+
+      <audio id="player" preload="auto"></audio>
+
+      <div id="stem-toggles" class="stem-toggles hidden">
+        <span class="muted">Mezcla manual de pistas:</span>
+      </div>
+
+      <div id="reveal-box" class="hidden reveal-box">
+        <p id="reveal-text"></p>
+        <h3 id="answer-title"></h3>
+        <p class="muted" id="reveal-meta"></p>
+      </div>
+    </section>
+
+    <p class="muted footer">
+      Cada canción se descarga a demanda (evitando videoclips), se limpian intros con SponsorBlock,
+      se recorta el silencio inicial y se guarda como MP3 liviano. En Bandle se separa con Demucs
+      (CUDA si está disponible) y los stems quedan cacheados. Los WAV intermedios se eliminan solos
+      para no llenar el disco.
+    </p>
+  </main>
+  <script src="/static/script.js"></script>
+</body>
+</html>

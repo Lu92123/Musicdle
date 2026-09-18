@@ -1,0 +1,21 @@
+# Credenciales y token de Spotify (NUNCA subir)
+.env
+.spotify_token_cache
+.spotify_oauth_token_cache
+
+# Entorno y cachés
+.venv/
+venv/
+__pycache__/
+*.pyc
+audio_cache/
+*.log
+
+# Otros proyectos/archivos ajenos dentro de la misma carpeta
+.cache
+copa_robotica_2026/
+copa_robotica_2026_web/
+FTCTimer/
+lastcube-timer/
+server_err.log
+server_out.log

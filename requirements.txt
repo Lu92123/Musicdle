@@ -1,0 +1,10 @@
+fastapi>=0.110
+uvicorn[standard]>=0.29
+spotipy>=2.24
+yt-dlp>=2024.4.9
+python-dotenv>=1.0
+pydub>=0.25
+demucs>=4.0.0
+torch>=2.2
+torchaudio>=2.2
+soundfile>=0.12  # carga/guardado de audio para Demucs (evita torchcodec/FFmpeg shared)
