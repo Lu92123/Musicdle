@@ -126,7 +126,7 @@ Abrí http://127.0.0.1:8000 en el navegador.
 
 ## Uso
 
-1. Al abrir la app (estando conectado) se cargan automáticamente tus **canciones que me gustan** como biblioteca por defecto (botón "Usar mis canciones que me gustan"). Podés alternar y pegar la URL de una playlist **tuya o donde colabores** (ej: `https://open.spotify.com/playlist/0PwWK8iR5WJdVFxrHmbpf2`) o solo su ID, y pulsar **Cargar**. Solo se descarga metadata (títulos y artistas), no los audios.
+1. Al abrir la app (estando conectado) se cargan automáticamente tus **canciones que me gustan** como biblioteca por defecto (botón "Usar mis canciones que me gustan"). Podés alternar y pegar la URL de una playlist **tuya o donde colabores** (ej: `https://open.spotify.com/playlist/COLE_AQUI_EL_ID_DE_TU_PLAYLIST`) o solo su ID, y pulsar **Cargar**. Solo se descarga metadata (títulos y artistas), no los audios.
    > Importante: desde feb/2026 Spotify **bloquea (403)** leer las canciones de playlists de terceros incluso públicas (apps en Development Mode). Para jugar con una playlist ajena, en la app de Spotify elegí "Agregar a playlist" y guardala en una playlist tuya/colaborada.
 2. Elegí el **modo**:
 
